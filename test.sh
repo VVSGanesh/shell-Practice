@@ -1,5 +1,3 @@
 #!/bin/bash
-
-ls
-cat /etc/passwd
+ech "hello world"
 
