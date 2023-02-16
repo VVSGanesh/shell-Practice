@@ -1,3 +1,2 @@
 # shell-Practice
-
-test and check the commit
+changes from the intellij
