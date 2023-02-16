@@ -9,3 +9,5 @@ cd /usr/share/nginx/html
 unzip /tmp/frontend.zip
 
 cp $confFilePath/Files/Nginx.conf /etc/nginx/default.d/roboshop.conf
+
+systemctl restart nginx
