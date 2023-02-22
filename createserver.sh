@@ -19,7 +19,10 @@ create_ec2() {
 
 
 ## Main Program
-aws
+current_path=${pwd}
+mkdir /home/centos/.aws
+cp $current_path/config /home/centos/.aws/config
+cp $current_path/credentials /home/centos/.aws/credentials
 AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-8-DevOps-Practice" | jq '.Images[].ImageId' | sed -e 's/"//g')
 if [ -z "${AMI_ID}" ]; then
   echo "AMI_ID not found"
