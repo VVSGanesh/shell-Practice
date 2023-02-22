@@ -35,9 +35,9 @@ if [ -z "${SGID}" ]; then
 fi
 
   echo "Please enter the component name"
-  read component
+  read server
 
-  ${COMPONENT}="${component}-${env}"
+  COMPONENT="${server}-${env}"
   create_ec2
 
 Footer
