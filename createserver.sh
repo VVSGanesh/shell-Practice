@@ -46,17 +46,17 @@ AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-8-DevOps-Pra
 SG_NAME="allow-all"
 SGID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=${SG_NAME} | jq  '.SecurityGroups[].GroupId' | sed -e 's/"//g')
 
-for i in catalogue cart user shipping payment frontend mongodb mysql rabbitmq redis dispatch; do
+for i in catalogue ; do
 
   PRIVATE_IP=$(aws ec2 run-instances \
         --image-id ${AMI_ID} \
         --instance-type t3.micro \
-        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}, {Key=Monitor,Value=yes}]" "ResourceType=spot-instances-request,Tags=[{Key=Name,Value=${COMPONENT}}]"  \
+        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${i}}, {Key=Monitor,Value=yes}]" "ResourceType=spot-instances-request,Tags=[{Key=Name,Value=${i}}]"  \
         --instance-market-options "MarketType=spot,SpotOptions={SpotInstanceType=persistent,InstanceInterruptionBehavior=stop}"\
         --security-group-ids ${SGID} \
         | jq '.Instances[].PrivateIpAddress' | sed -e 's/"//g')
 
 
-  aws ssm put-parameter --name ${i} --value "${PRIVATE_IP}" --type "SecureString" --region "us-east-1" --overwrite
+  aws ssm put-parameter --name ${i} --value ${PRIVATE_IP} --type "SecureString" --region "us-east-1" --overwrite
 
 done
