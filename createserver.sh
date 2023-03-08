@@ -46,7 +46,7 @@ AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-8-DevOps-Pra
 SG_NAME="allow-all"
 SGID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=${SG_NAME} | jq  '.SecurityGroups[].GroupId' | sed -e 's/"//g')
 
-for i in catalogue ; do
+for i in catalogue cart user shipping payment frontend mongodb mysql rabbitmq redis dispatch ; do
 
   PRIVATE_IP=$(aws ec2 run-instances \
         --image-id ${AMI_ID} \
